@@ -1,2 +1,2 @@
-# bloghub
+# blogstate
 A blogging platform for wannabe bloggers.
