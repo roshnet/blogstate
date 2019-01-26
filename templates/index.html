@@ -23,45 +23,26 @@
 	</div>
 </section>
 
-<hr class="navbar">
 
-<div class="columns has-text-centered">
-	<div class="column is-one-fifth"></div>
-	<div class="column is-one-fifth">
-		<div class="card">
-			<div class="card-content has-text-centered">
-				<a href="#">
-					<button class="button is-info">
-						<p class="has-text-blue">Signup</p>
-					</button>
-				</a>
+<nav class="navbar is-info">
+	<div class="container">
+		<div class="navbar-brand">
+			<span class="navbar-burger burger" data-target="navMenu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+		</div>
+		<div id="navMenu" class="navbar-menu">
+			<div class="navbar-end">
+				<a href="#" class="navbar-item is-active">Sign Up</a>
+				<a href="#" class="navbar-item">Login</a>
+				<a href="#" class="navbar-item">Articles</a>
 			</div>
 		</div>
 	</div>
-	<div class="column is-one-fifth">
-		<div class="card">
-			<div class="card-content has-text-centered">
-				<a href="">
-					<button class="button is-info">
-						<p class="has-text-blue">Login</p>
-					</button>
-				</a>
-			</div>
-		</div>
-	</div>
-	<div class="column is-one-fifth">
-		<div class="card">
-			<div class="card-content has-text-centered">
-				<a href="">
-					<button class="button is-info">
-						<p class="has-text-blue">Learn more</p>
-					</button>
-				</a>
-			</div>
-		</div>
-	</div>
-	<div class="column is-one-fifth"></div>
-</div>
+
+</nav>
 
 <section class="section">
 	<div class="container">
@@ -125,3 +106,13 @@
 
 </body>
 </html>
+ <script type="text/javascript">
+      (function() {
+        var burger = document.querySelector('.burger');
+        var nav = document.querySelector('#'+burger.dataset.target);
+        burger.addEventListener('click', function(){
+          burger.classList.toggle('is-active');
+          nav.classList.toggle('is-active');
+        });
+      })();
+</script>
