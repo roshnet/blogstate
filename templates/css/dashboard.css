@@ -1,0 +1,372 @@
+/*
+  Variables
+*/
+
+
+/*
+  Pen Setup
+*/
+
+html {
+  box-sizing:border-box;
+  font-size:62.5%;
+}
+*, *:before, *:after {
+  box-sizing:inherit;
+}
+
+body {
+  margin:0;
+  font-family:sans-serif;
+  font-size:1.6rem;
+  line-height:1.5;
+  color:#333;
+  background-color:#efefef;
+}
+
+/*
+  Layout
+*/
+
+.dashboard-wrapper {
+    width:100%;
+  }
+
+.dashboard-header {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    align-items:center;
+    
+    width:100%;
+    height:6rem;
+    
+    background-color:#fff;
+    border-bottom:1px solid #e0e0e0;
+  }
+
+.dashboard-header .branding a {
+        display:flex;
+        flex-direction:row;
+        flex-wrap:nowrap;
+        align-items:center;
+
+        width:25rem;
+        padding:1rem;
+        font-size:2.4rem;
+        font-weight:500;
+        border-right:1px solid #e0e0e0;
+      }
+
+.dashboard-header .branding a img {}
+
+.dashboard-header .branding a span {
+          margin-left:1rem;
+        }
+
+.dashboard-header nav {
+      margin-left:auto;
+      padding:1rem;
+    }
+
+.dashboard-body {
+    position:relative;
+    
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+
+    min-height:calc(100vh - 6rem);
+    margin-top:6rem;
+  }
+
+.dashboard-content {
+    width:100%;
+    min-height:calc(100vh - 6rem);
+  }
+
+.dashboard-sidebar {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:999;
+
+    width:25rem;
+    height:100%;
+    padding-top:6rem;
+    
+    background-color:#fff;
+    border-right:1px solid #e0e0e0;
+  }
+
+.dashboard-sidebar:not(.dashboard-sidebar--mini)[aria-hidden="false"] {
+        left:0;
+      }
+
+.dashboard-sidebar:not(.dashboard-sidebar--mini)[aria-hidden="false"] ~ .dashboard-content {
+          margin-left:25rem;
+        }
+
+.dashboard-sidebar:not(.dashboard-sidebar--mini)[aria-hidden="true"] {
+        left:-25rem;
+      }
+
+.dashboard-sidebar:not(.dashboard-sidebar--mini)[aria-hidden="true"] ~ .dashboard-content {
+          margin-left:0;
+        }
+
+.dashboard-sidebar .component-menu li {}
+
+.dashboard-sidebar .component-menu a span {}
+
+/* First Level */
+
+.dashboard-sidebar .component-menu > li a {
+          display:flex;
+          align-items:center;
+        }
+
+.dashboard-sidebar .component-menu > li a span {
+            display:inline-flex;
+            align-items:center;
+            height:6rem;
+            padding:1rem;
+          }
+
+.dashboard-sidebar .component-menu > li a span:first-child {
+              justify-content:center;
+              width:6rem;
+
+              color:#333;
+            }
+
+.dashboard-sidebar .component-menu > li a span:last-child {
+              flex:1;
+              padding:1rem 1rem 1rem 2rem;
+
+              color:#333;
+            }
+
+/* Children */
+
+.dashboard-sidebar .component-menu li li a {}
+
+/* Mini Sidebar */
+
+.dashboard-sidebar--mini {
+      width:6rem;
+    }
+
+.dashboard-sidebar--mini ~ .dashboard-content {
+        margin-left:6rem;
+      }
+
+.dashboard-sidebar--mini .component-menu li {}
+
+.dashboard-sidebar--mini .component-menu a span:last-child {}
+
+/* First Level */
+
+.dashboard-sidebar--mini .component-menu > li a span:first-child {
+                
+              }
+
+.dashboard-sidebar--mini .component-menu > li a span:last-child {
+                display:none;
+                flex:none;
+                width:0;
+              }
+
+/*
+  Pages / Views
+*/
+
+.page {
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 6rem);
+}
+
+.page-header {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    
+    background-color:#fff;
+    border-bottom:1px solid #e0e0e0;
+  }
+
+.page-title {
+    flex:1;
+    margin:1rem;
+    font-size:2.8rem;
+    font-weight:500;
+  }
+
+.page-search {
+    margin:1rem;
+  }
+
+.page-search[aria-hidden="false"] {
+      display:block;
+    }
+
+.page-search[aria-hidden="true"] {
+      display:none;
+    }
+
+.page-actions {
+    margin:1rem;
+  }
+
+.page-actions[aria-hidden="false"] {
+      display:block;
+    }
+
+.page-actions[aria-hidden="true"] {
+      display:none;
+    }
+
+.page-filters {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    
+    width:100%;
+    border-top:1px solid #e0e0e0;
+  }
+
+.page-filters[aria-hidden="false"] {
+      display:flex;
+    }
+
+.page-filters[aria-hidden="true"] {
+      display:none;
+    }
+
+.page-filters .page-filter {
+      flex:1;
+      margin:1rem;
+    }
+
+.page-filters .page-filter__dropdown[aria-hidden="false"] {
+          display:block;
+        }
+
+.page-filters .page-filter__dropdown[aria-hidden="true"] {
+          display:none;
+        }
+
+.page-body {
+    flex:1;
+    padding:1rem;
+  }
+
+.page-footer {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    
+    background-color:#fff;
+    border-top:1px solid #e0e0e0;
+  }
+
+/*
+  Components
+*/
+
+.component-nav ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+
+.component-nav ul[aria-hidden="false"] {
+      display:block;
+    }
+
+.component-nav ul[aria-hidden="true"] {
+      display:none;
+    }
+
+.component-menu--vertical > li {
+      display:block;
+      width:100%;
+    }
+
+.component-menu--horizontal {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    align-items:center;
+  }
+
+/* display:inline-block; */
+
+.component-menu--horizontal > li ~ li {
+        margin-left:1rem;
+      }
+
+.component-menu li {}
+
+.component-menu a {
+    text-decoration:none;
+    outline:none;
+  }
+
+.component-image {
+  display:block;
+}
+
+.component-image--circle {
+    border-radius:50%;
+  }
+
+.component-list-item {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+/*
+  UI Helpers
+*/
+
+.ui-scrollable {
+  overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+
+  /* Internet Explorer */
+  scrollbar-face-color:#aaa;
+  scrollbar-track-color:transparent;
+}
+
+/* WebKit browsers */
+
+.ui-scrollable::-webkit-scrollbar {
+    width:1rem;
+    height:1rem;
+  }
+
+.ui-scrollable::-webkit-scrollbar-thumb {
+    background:#aaa;
+  }
+
+.ui-scrollable::-webkit-scrollbar-track {
+    background:transparent;
+  }
+
+.ui-full-height {
+  height:100%;
+}

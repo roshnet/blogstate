@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  
+  <link rel='stylesheet' href='https://rawgit.com/donnyburnside/My-Grid-System/master/dist/css/style.css'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="css/dashboard.css">
+
+  
+</head>
+
+<body>
+
+  <div class='dashboard-wrapper'>
+  <div class='dashboard-header'>
+    <div class='branding'>
+      <a class='' href='#' title='User Menu'>
+        <img class='component-image component-image--circle' src='https://placem.at/things?w=40&amp;h=40'>
+        <span class=''>Dashboard</span>
+      </a>
+    </div>
+    <nav class='component-nav'>
+      <ul class='component-menu component-menu--horizontal'>
+        <li class=''>
+          <a class='' href='#' title='User Menu'>
+            <img class='component-image component-image--circle' src='https://placem.at/people?w=35&amp;h=35'>
+          </a>
+          <ul aria-hidden='true' class=''>
+            <li class=''>
+              <a class='' href='#'>
+                Settings
+              </a>
+            </li>
+            <li class=''>
+              <a class='' href='#'>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class=''>
+          <a class='' href='#'>
+            <i class='fa fa-fw fa-cog' title='Settings'></i>
+          </a>
+          <ul aria-hidden='true' class=''>
+            <li class=''>
+              <div class='button-group'>
+                <input class='' id='sidebar-hidden'>
+                <label class='' for='sidebar-hidden'></label>
+                <input class='' id='sidebar-mini'>
+                <label class='' for='sidebar-mini'></label>
+                <input class='' id='sidebar-full'>
+                <label class='' for='sidebar-full'></label>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class='dashboard-body'>
+    <div aria-hidden='false' class='dashboard-sidebar'>
+      <nav class='component-nav ui-full-height ui-scrollable'>
+        <ul class='component-menu component-menu--vertical'>
+          <li class=''>
+            <a class='' href='#'>
+              <span class=''>
+                <i class='fa fa-fw fa-institution'></i>
+              </span>
+              <span class=''>
+                Dashboard
+              </span>
+            </a>
+          </li>
+          <li class=''>
+            <a class='' href='#'>
+              <span class=''>
+                <i class='fa fa-fw fa-file'></i>
+              </span>
+              <span class=''>
+                Articles
+              </span>
+            </a>
+            <ul aria-hidden='true' class=''>
+              <li class=''>
+                <a class='' href='#'>
+                  List Articles
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  New Article
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  Tags
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  Deleted Articles
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class=''>
+            <a class='' href='#'>
+              <span class=''>
+                <i class='fa fa-fw fa-folder'></i>
+              </span>
+              <span class=''>
+                Categories
+              </span>
+            </a>
+            <ul aria-hidden='true' class=''>
+              <li class=''>
+                <a class='' href='#'>
+                  List Categories
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  New Category
+                </a>
+              </li>
+            </ul>
+          </li>
+         
+          <li class=''>
+            <a class='' href='#'>
+              <span class=''>
+                <i class='fa fa-fw fa-users'></i>
+              </span>
+              <span class=''>
+                Users
+              </span>
+            </a>
+            <ul aria-hidden='true' class=''>
+              <li class=''>
+                <a class='' href='#'>
+                  List Users
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  Roles
+                </a>
+              </li>
+              <li class=''>
+                <a class='' href='#'>
+                  Groups
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class=''>
+            <a class='' href='#'>
+              <span class=''>
+                <i class='fa fa-fw fa-cogs'></i>
+              </span>
+              <span class=''>
+                Tools
+              </span>
+            </a>
+            <ul aria-hidden='true' class=''>
+              <li class=''>
+                <a class='' href='#'>
+                  Rebuild Search Index
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class='dashboard-content'>
+      <div class='page' id='dashboard'>
+        <div class='page-header'>
+          <h1 class='page-title'>Dashboard</h1>
+          <div aria-hidden='false' class='page-search'>
+            <input class='search-field' role='search' type='search'>
+          </div>
+          <div aria-hidden='false' class='page-actions'>
+            <button class='button'>New</button>
+            <button class='button'>Save</button>
+            <button class='button'>Delete</button>
+            <button class='button'>Reset</button>
+            <button class='button'>Back</button>
+            <button class='button'>Filters</button>
+          </div>
+          <div aria-hidden='false' class='page-filters'>
+            <div class='page-filter' data-group='state'>
+              <a class='page-filter__label'>State</a>
+              <div aria-hidden='true' class='page-filter__dropdown'>
+                <a class='page-filter__option'>Published</a>
+                <a class='page-filter__option'>Legal Review</a>
+                <a class='page-filter__option'>Editorial Review</a>
+                <a class='page-filter__option'>Draft</a>
+              </div>
+            </div>
+            <div class='page-filter' data-group='country'>
+              <a class='page-filter__label'>Country</a>
+              <div aria-hidden='true' class='page-filter__dropdown'>
+                <a class='page-filter__option'></a>
+                <a class='page-filter__option'></a>
+                <a class='page-filter__option'></a>
+              </div>
+            </div>
+            <div class='page-filter' data-group='type'>
+              <a class='page-filter__label'>Type</a>
+              <div aria-hidden='true' class='page-filter__dropdown'>
+                <a class='page-filter__option'>My Articles</a>
+                <a class='page-filter__option'>Articles needing my attention</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='page-body'>
+          <div class='component-list-item'>
+            <div class='list-item__title'></div>
+            <div class='list-item__author'></div>
+            <div class='list-item__review'></div>
+            <div class='list-item__state'></div>
+            <div class='list-item__date'></div>
+            <div class='list-item__country'></div>
+          </div>
+          <div class='component-list-item'>
+            <div class='list-item__title'></div>
+            <div class='list-item__author'></div>
+            <div class='list-item__review'></div>
+            <div class='list-item__state'></div>
+            <div class='list-item__date'></div>
+            <div class='list-item__country'></div>
+          </div>
+        </div>
+        <div class='page-footer'>
+          <ul class='pagination'></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://rawgit.com/paulirish/matchMedia.js/master/matchMedia.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js'></script>
+<script src='https://rawgit.com/javve/list.pagination.js/master/dist/list.pagination.min.js'></script>
+<script src='https://rawgit.com/javve/list.fuzzysearch.js/v0.1.0/dist/list.fuzzysearch.min.js'></script>
+
+  
+
+    <script  src="js/dashscript.js"></script>
+
+
+
+
+</body>
+
+</html>
