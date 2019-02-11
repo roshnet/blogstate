@@ -1,38 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" >
-
-<head>
-  <meta charset="UTF-8">
-  <title>Modes/Textarea Editor</title>
-  
-  
-  
-  
-  
-</head>
-
-<body>
-
-  <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css"><link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" /><link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" /></head>
-
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+  <title>Write Something</title>
+</head>
 <body>
 <textarea id="froala-editor"></textarea>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0//js/froala_editor.pkgd.min.js"></script>
-
+  <script async type="text/javascript" src="static/js/jquery.min.js" defer></script>
+  <script async type="text/javascript" src="static/js/codemirror.min.js" defer></script>
+  <script async type="text/javascript" src="static/js/xml.min.js" defer></script>
+  <script async type="text/javascript" src="static/js/froala_editor.pkgd.min.js" defer></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      $('textarea#froala-editor').froalaEditor();
+    };
+  </script>
 </body>
-</html>
-  
-  
-
-    <script  src="js/script.js"></script>
-
-
-
-
-</body>
-
 </html>
