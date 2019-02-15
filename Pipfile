@@ -26,6 +26,7 @@ Jinja2 = "==2.10"
 MarkupSafe = "==1.1.0"
 python_jwt = "==2.0.1"
 Werkzeug = "==0.14.1"
+flask-mysql = "*"
 
 [requires]
 python_version = "3.6"

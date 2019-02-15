@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "319bea453250770a23c4b54571b3b967b61d21fd79c12eab9a568a00f03a585a"
+            "sha256": "215be62163e2c1bdae830605c3375d1ec6eca407ea1d65dacb4d9eaf09ed57e6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -31,6 +31,14 @@
             ],
             "index": "pypi",
             "version": "==1.0.2"
+        },
+        "flask-mysql": {
+            "hashes": [
+                "sha256:33389b2e74d7dccaf749a42d22dc6663e7f1467941c680ab215e1df51b5ca2d3",
+                "sha256:f1bc82e42fdce5d53cb31eac3a17a29241a8f82f6ceac9eaa95ab4cdeefafc9a"
+            ],
+            "index": "pypi",
+            "version": "==1.4.0"
         },
         "gcloud": {
             "hashes": [
@@ -171,6 +179,13 @@
             ],
             "index": "pypi",
             "version": "==3.4.3"
+        },
+        "pymysql": {
+            "hashes": [
+                "sha256:3943fbbbc1e902f41daf7f9165519f140c4451c179380677e6a848587042561a",
+                "sha256:d8c059dcd81dedb85a9f034d5e22dcb4442c0b201908bede99e306d65ea7c8e7"
+            ],
+            "version": "==0.9.3"
         },
         "python-jwt": {
             "hashes": [
