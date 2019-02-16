@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Blogstate | Blogging for students</title>
+	<title>{{ user.name }} | BlogState</title>
 	<meta charset="utf-8">
 	<meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
 	<meta name="author" content="reprogram46@gmail.com"/>
@@ -32,7 +32,7 @@
 		</div>
 		<div id="navMenu" class="navbar-menu">
 			<div class="navbar-end">
-				<a href="#" class="navbar-item">Sign Up</a>
+				<a href="#" class="navbar-item">Profile</a>
 				<a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
 				<a href="#" class="navbar-item">Articles</a>
 			</div>
@@ -45,7 +45,7 @@
 	<div class="container">
 		<div class="section">
 			<span class="title">Welcome</span>
-			<span class="subtitle">{{ username }}</span>
+			<span class="subtitle">{{ user.name }}</span>
 		</div>
 	</div>
 </section>

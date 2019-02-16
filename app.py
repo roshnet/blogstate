@@ -10,8 +10,8 @@ from flask_login import login_user
 from flask_login import logout_user
 from flask_login import login_required
 import os
-from werkzeug import generate_password_hash
-from werkzeug import check_password_hash
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flaskext.mysql import MySQL
 from dbconfig.config import db
 
@@ -36,6 +36,12 @@ login_manager.init_app(app)
 login_manager.login_view = ''
 
 
+# Global user variables..
+name = ''
+# Declared to avoid another db query to get user's name.
+# Most fields are acquired in the login/signup query itself. 
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
@@ -56,10 +62,39 @@ def index():
 
 
 @app.route('/signin')
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html',
-                           title='Log In')
+    if request.method == 'GET':
+        return render_template('login.html',
+                               title='Log In')
+
+    # [Do] Process login instead.
+    username = request.form['username']
+    passwd = request.form['passwd']
+
+    # [Later] Check for sanity of fields, redirect if unclean (avoid SQLIA).
+
+    # Assuming clean data, proceeding.
+    q = "SELECT `hash`, `name` FROM `credentials` WHERE username='{}';"
+    cur.execute(q.format(username))
+    match = cur.fetchone()
+
+    if match is None:
+        return render_template('login.html',
+                               issue='Username or password is incorrect')
+
+    # If username exists, proceed to compare passwords.
+    hashed = match[0]
+    if not check_password_hash(hashed, passwd):
+        return render_template('login.html',
+                               issue='Username or password is incorrect')
+
+    # Else, log the user in.
+    login_user(User(username))
+    global name
+    name = match[1]
+    return redirect(url_for('dashboard',
+                            username=username))
 
 
 @app.route('/signup')
@@ -77,7 +112,7 @@ def signup():
     # [Later] Check for sanity of fields, redirect if unclean (avoid SQLIA).
 
     # [Do] Check for username availability (assuming clean data)
-    q = "SELECT user_id FROM `credentials` WHERE username='{}';"
+    q = "SELECT `name` FROM `credentials` WHERE username='{}';"
     q.format(username)
     cur.execute(q)
     match = cur.fetchone()
@@ -110,6 +145,10 @@ def signup():
 
     # Log the user in.
     login_user(User(username))
+    user_info = {
+        'username': username,
+        'name': name
+    }
     return redirect(url_for('dashboard', username=username))
 
 
@@ -117,17 +156,21 @@ def signup():
 # PROTECTED ROUTES
 
 
-@app.route('/<string:username>')
+@app.route("/<string:username>")
 @login_required
 def dashboard(username):
-    return render_template('dashboard.html', username=username)
+    user_info = {
+        'username': username,
+        'name': name
+    }
+    return render_template('dashboard.html', user=user_info)
 
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
