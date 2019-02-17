@@ -43,12 +43,8 @@ def validate(username='', name=''):
 
 	# [name] -:
 
-	# Forcefully capitalise first alphabet
-	name[0] = name[0].upper()
-
-	# [Later] Regex to allow only alphabets (in title-case) in name.
-	# Modify name as needed.
-
+	# Convert to title case
+	name = name.title()
 	return {
 		'is_valid': 1,
 		'name': name,
