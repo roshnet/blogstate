@@ -18,7 +18,7 @@ Here's how.
 		`git clone <url-of-fork>`
 
 2. Install `pipenv` if not already by `pip install pipenv`.
-After installing it, `cd` to the cloned repository, activate the shell by `pipenv shell`, and run 
+After installing it, `cd` to the cloned repository, and run 
 `pipenv install` to install all dependencies.
 3. Now, the Python part is all set up. The database needs to be configured.
 4. Copy all contents of `dbconfig/setup.sql` to clipboard.
