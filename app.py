@@ -157,13 +157,7 @@ def signup():
         conn.commit()
 
     except:
-        error = '''
-        Something bad happened :(
-        <h3>Click <a href="{{ url_for('signup') }}">here</a>
-        to return to signup page.</h3>
-        Error Description: {}
-        '''
-        return error
+        return render_template('error.html')
 
     # Log the user in.
     login_user(User(username))
