@@ -184,6 +184,6 @@ def logout():
                            msg='You have been logged out')
 
 
-if __name__ == '__main__':
-    # In dev mode:
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     # In dev mode:
+#     app.run(debug=True)
