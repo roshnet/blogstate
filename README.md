@@ -10,7 +10,7 @@ Here's how.
 > If not, install them by
     `sudo apt install mysql-server mysql-client`
 > and set a password in the prompt asked.
-
+### Using `pipenv`
 1. Clone the repo (or fork if you plan to contribute).
 	- To just test the site:
 		  `git clone https://github.com/roshnet/blogstate`
@@ -30,6 +30,15 @@ After installing it, `cd` to the cloned repository, and run
 So, manually change the URL to whatever route you like.
 Refer to `app.py` for all routes, and manually change the URLs to navigate.
 For example, change the URL to `127.0.0.1:5000/signup` to view the signup page.
+
+### Using traditional virtual environment
+1. Follow step-1 from above (clone/fork).
+2. `cd` to your favourite directory, and run `python3 -m venv bs-env`.
+3. Activate it by `source bs-venv/bin/activate`. You may use any other name than `bs-venv`, but the same name.
+4. Run `pip install --upgrade pip` to, as expected, upgrade pip, and then install the dependencies by:
+> `pip install flask flask-login flask-mysql`
+5. Now `cd` to the cloned `blogstate` directory, and run `python app.py` (ensure venv is activated).
+6. The project can run only when the environment is activated. Or perhaps you have the dependencies globally installed.
 
 # Useful links
   - [pipenv](https://realpython.com/pipenv-guide)
