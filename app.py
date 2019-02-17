@@ -15,6 +15,7 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flaskext.mysql import MySQL
 from dbconfig.config import db
+from utils.validator import validate
 
 
 app = Flask(__name__)
@@ -66,8 +67,6 @@ def login():
     username = request.form['username']
     passwd = request.form['passwd']
 
-    # [Later] Check for sanity of fields, redirect if unclean (avoid SQLIA).
-
     # Assuming clean data, proceeding.
     q = "SELECT `hash`, `name` FROM `credentials` WHERE username='{}';"
     try:
@@ -83,6 +82,7 @@ def login():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
+            # [Later] Redirect to a separate template meant for errors.
             error = '''
             <h1>Something unfortunately broke :( </h1>
             <h3>Click <a href="{{ url_for('login') }}">here</a>
@@ -121,7 +121,13 @@ def signup():
     email = request.form['email']
     passwd = request.form['passwd']
 
-    # [Later] Check for sanity of fields, redirect if unclean (avoid SQLIA).
+    # [WIP] Check for sanity of fields, redirect if unclean (avoid SQLIA).
+    resp = validate(username, name)
+    if resp['is_valid'] == 0:
+        return render_template('signup.html',
+                               issue=resp['message'])
+    elif resp['is_valid'] == 1:
+        name = resp['name']
 
     # [Do] Check for username availability (assuming clean data)
     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
@@ -136,6 +142,7 @@ def signup():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
+            # [Later] Redirect to a separate template meant for errors.
             error = '''
             <h1>Something unfortunately broke :( </h1>
             <h3>Click <a href="{{ url_for('signup') }}">here</a>
@@ -195,6 +202,6 @@ def logout():
                            msg='You have been logged out')
 
 
-# if __name__ == '__main__':
-    ## In dev mode:
-    # app.run(debug=True)
+if __name__ == '__main__':
+    # In dev mode:
+    app.run(debug=True)
