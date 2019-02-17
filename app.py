@@ -82,14 +82,8 @@ def login():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Later] Redirect to a separate template meant for errors.
-            error = '''
-            <h1>Something unfortunately broke :( </h1>
-            <h3>Click <a href="{{ url_for('login') }}">here</a>
-            to return to login page.</h3>
-            Error Description: {}
-            '''
-            return error
+            # [Done] Redirect to a separate template meant for errors.
+            return render_template('error.html')
 
     if match is None:
         return render_template('login.html',
@@ -142,14 +136,8 @@ def signup():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Later] Redirect to a separate template meant for errors.
-            error = '''
-            <h1>Something unfortunately broke :( </h1>
-            <h3>Click <a href="{{ url_for('signup') }}">here</a>
-            to return to signup page.</h3>
-            Error Description: {}
-            '''
-            return error
+            # [Done] Redirect to a separate template meant for errors.
+            return render_template('error.html')
 
     if not match is None:
         return render_template('signup.html',
