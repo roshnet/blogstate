@@ -125,7 +125,6 @@ def signup():
 
     # [Do] Check for username availability (assuming clean data)
     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
-    q.format(username)
     try:
         cur.execute(q)
         match = cur.fetchone()
