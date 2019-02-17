@@ -70,8 +70,26 @@ def login():
 
     # Assuming clean data, proceeding.
     q = "SELECT `hash`, `name` FROM `credentials` WHERE username='{}';"
-    cur.execute(q.format(username))
-    match = cur.fetchone()
+    try:
+        cur.execute(q.format(username))
+        match = cur.fetchone()
+    except:
+        # Exception handler for 500 Internal Server Error.
+        # Being idle for too long (before login) forgets the DB connection.
+        # Here, we reintialize it, and execute the query.
+        try:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.execute(q.format(username))
+            match = cur.fetchone()
+        except:
+            error = '''
+            <h1>Something unfortunately broke :( </h1>
+            <h3>Click <a href="{{ url_for('login') }}">here</a>
+            to return to login page.</h3>
+            Error Description: {}
+            '''
+            return error
 
     if match is None:
         return render_template('login.html',
@@ -108,8 +126,24 @@ def signup():
     # [Do] Check for username availability (assuming clean data)
     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
     q.format(username)
-    cur.execute(q)
-    match = cur.fetchone()
+    try:
+        cur.execute(q)
+        match = cur.fetchone()
+    except:
+        # Connection-Reset-On-Idle exception handler.
+        try:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.execute(q.format(username))
+            match = cur.fetchone()
+        except:
+            error = '''
+            <h1>Something unfortunately broke :( </h1>
+            <h3>Click <a href="{{ url_for('signup') }}">here</a>
+            to return to signup page.</h3>
+            Error Description: {}
+            '''
+            return error
 
     if not match is None:
         return render_template('signup.html',
@@ -128,14 +162,13 @@ def signup():
                         email))
         conn.commit()
 
-    except Exception as e:
+    except:
         error = '''
         Something bad happened :(
         <h3>Click <a href="{{ url_for('signup') }}">here</a>
-        to return to home page.</h3>
+        to return to signup page.</h3>
         Error Description: {}
-        '''.format(e)
-
+        '''
         return error
 
     # Log the user in.
