@@ -6,6 +6,11 @@
 	<form action="{{ url_for('signup') }}" method="POST">
 		<div class="columns">
 			<div class="column is-4 is-offset-4">
+				{% if issue %}
+				<div class="field has-text-centered">
+					<p class="button is-danger is-small is-outlined">{{ issue }}</p>
+				</div>
+				{% endif %}
 				<div class="field">
 					<p class="control">
 						<input class="input" type="text" name="name" placeholder="Your full name" autofocus required />
@@ -18,7 +23,7 @@
 				</div>
 				<div class="field">
 					<p class="control">
-						<input class="input" type="text" name="username" minlength="4" maxlength="20" placeholder="Choose a username" required />
+						<input class="input" type="text" name="username" minlength="3" maxlength="20" placeholder="Choose a username" required />
 					</p>
 				</div>
 				<div class="field">
