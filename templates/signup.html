@@ -8,22 +8,22 @@
 			<div class="column is-4 is-offset-4">
 				<div class="field">
 					<p class="control">
-						<input class="input" type="text" name="name" placeholder="Your full name" autofocus/>
+						<input class="input" type="text" name="name" placeholder="Your full name" autofocus required />
 					</p>
 				</div>
 				<div class="field">
 					<p class="control">
-						<input class="input" type="email" name="email" placeholder="Email Address"/>
+						<input class="input" type="email" name="email" placeholder="Email Address" required />
 					</p>
 				</div>
 				<div class="field">
 					<p class="control">
-						<input class="input" type="text" name="username" placeholder="Choose a username"/>
+						<input class="input" type="text" name="username" minlength="4" maxlength="20" placeholder="Choose a username" required />
 					</p>
 				</div>
 				<div class="field">
 					<p class="control">
-						<input class="input" type="password" name="passwd" placeholder="Set a password"/>
+						<input class="input" type="password" name="passwd" minlength="6" placeholder="Set a password" required />
 					</p>
 				</div>
 				<div class="field has-text-centered">
