@@ -75,7 +75,7 @@ def login():
     except:
         # Exception handler for 500 Internal Server Error.
         # Being idle for too long (before login) forgets the DB connection.
-        # Here, we reintialize it, and execute the query.
+        # Here, we reinitialize it, and execute the query.
         try:
             conn = mysql.connect()
             cur = conn.cursor()
