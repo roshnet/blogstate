@@ -4,6 +4,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import redirect, url_for
+from flask import session
 from flask_login import LoginManager
 from flask_login import UserMixin
 from flask_login import login_user
@@ -36,12 +37,6 @@ login_manager.init_app(app)
 login_manager.login_view = ''
 
 
-# Global user variables..
-name = ''
-# Declared to avoid another db query to get user's name.
-# Most fields are acquired in the login/signup query itself. 
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
@@ -56,7 +51,6 @@ class User(UserMixin):
 
 
 @app.route('/')
-@app.route('/index')
 def index():
     return render_template('index.html')
 
@@ -91,8 +85,8 @@ def login():
 
     # Else, log the user in.
     login_user(User(username))
-    global name
-    name = match[1]
+    session['name'] = match[1]
+    session['username'] = username
     return redirect(url_for('dashboard',
                             username=username))
 
@@ -137,7 +131,8 @@ def signup():
     except Exception as e:
         error = '''
         Something bad happened :(
-        <h3>Click <a href="{{ url_for('index') }}">here</a> to return to home page.</h3>
+        <h3>Click <a href="{{ url_for('signup') }}">here</a>
+        to return to home page.</h3>
         Error Description: {}
         '''.format(e)
 
@@ -145,10 +140,8 @@ def signup():
 
     # Log the user in.
     login_user(User(username))
-    user_info = {
-        'username': username,
-        'name': name
-    }
+    session['name'] = name
+    session['username'] = username
     return redirect(url_for('dashboard', username=username))
 
 
@@ -159,18 +152,15 @@ def signup():
 @app.route("/<string:username>")
 @login_required
 def dashboard(username):
-    user_info = {
-        'username': username,
-        'name': name
-    }
-    return render_template('dashboard.html', user=user_info)
+    return render_template('dashboard.html', user=session)
 
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return render_template('login.html',
+                           msg='You have been logged out')
 
 
 if __name__ == '__main__':
