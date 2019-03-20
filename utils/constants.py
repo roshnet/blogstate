@@ -31,6 +31,7 @@ RESERVED_NAMES = (
 	'atom',
 	'auth',
 	'authentication',
+	'authenticate'
 	'autoconfig',
 	'avatar',
 	'backup',
