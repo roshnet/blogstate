@@ -125,7 +125,7 @@ def signup():
     # [Do] Check for username availability (assuming clean data)
     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
     try:
-        cur.execute(q)
+        cur.execute(q.format(username))
         match = cur.fetchone()
     except:
         # Connection-Reset-On-Idle exception handler.
