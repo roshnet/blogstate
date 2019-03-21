@@ -96,6 +96,7 @@ def login():
 
     # Else, log the user in.
     login_user(User(username))
+    session['logged_in'] = True
     session['name'] = match[1]
     session['username'] = username
     return redirect(url_for('dashboard',
@@ -160,16 +161,47 @@ def signup():
 
     # Log the user in.
     login_user(User(username))
+    session['logged_in'] = True
     session['name'] = name
     session['username'] = username
     return redirect(url_for('dashboard', username=username))
+
+
+@app.route("/<string:username>")
+def view_profile(username):
+    # Check if user is logged in, to avoid a database query.
+    if User.is_authenticated:
+        if username == session['username']:
+            return render_template('profile.html', user=session)
+
+    # When user is not logged in, query the DB and fetch info.
+    # SELECTing only `name` for now. SELECT more items later as DB grows,
+    # and that too from a different table.
+    q = "SELECT `name` FROM `credentials` WHERE username='{}';"
+    try:
+        cur.execute(q.format(username))
+        profile_data = cur.fetchall()
+    except:
+        # Try from scratch if connection fails.
+        try:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.execute(q.format(username))
+            profile_data = cur.fetchall()
+        except:
+            return render_template('error.html')
+    
+    # Now, everything needed to view profile is in `profile_data`.
+    # Proceeding to view profile.
+    return render_template('profile.html',
+                            person=profile_data)
 
 
 
 # PROTECTED ROUTES
 
 
-@app.route("/<string:username>")
+@app.route('/<string:username>/dashboard')
 @login_required
 def dashboard(username):
     return render_template('dashboard.html', user=session)
