@@ -1,4 +1,3 @@
-#! /usr/bin/python3
 
 from flask import Flask
 from flask import render_template
@@ -14,7 +13,7 @@ import os
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flaskext.mysql import MySQL
-from dbconfig.config import db
+from database.config import db
 from utils.validator import validate
 
 
