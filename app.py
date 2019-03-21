@@ -14,6 +14,7 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flaskext.mysql import MySQL
 from database.config import db
+from database.helpers import safe_connect
 from utils.validator import validate
 
 
@@ -29,7 +30,15 @@ mysql = MySQL()
 mysql.init_app(app)
 
 conn = mysql.connect()
-cur = conn.cursor()
+cur = safe_connect(mysql)
+
+ERROR_EXISTS = False
+# A variable that ensures whether an error really occurred,
+# or the user just typed '/error' as the url.
+if cur == 0:
+    ERROR_EXISTS = True
+    redirect('/error')
+
 
 # Initialize flask-login..
 login_manager = LoginManager()
@@ -48,6 +57,13 @@ class User(UserMixin):
 
     # def get_id(self):
     #     return (self.user_id)
+
+
+@app.route('/error')
+def error():
+    if ERROR_EXISTS:
+        return render_template('error.html')
+    return redirect(url_for('index'))
 
 
 @app.route('/')
@@ -76,8 +92,7 @@ def login():
         # Being idle for too long (before login) forgets the DB connection.
         # Here, we reinitialize it, and execute the query.
         try:
-            conn = mysql.connect()
-            cur = conn.cursor()
+            cur = safe_connect(mysql)
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
@@ -131,8 +146,7 @@ def signup():
     except:
         # Connection-Reset-On-Idle exception handler.
         try:
-            conn = mysql.connect()
-            cur = conn.cursor()
+            cur = safe_connect(mysql)
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
@@ -184,8 +198,7 @@ def view_profile(username):
     except:
         # Try from scratch if connection fails.
         try:
-            conn = mysql.connect()
-            cur = conn.cursor()
+            cur = safe_connect(mysql)
             cur.execute(q.format(username))
             profile_data = cur.fetchall()
         except:
