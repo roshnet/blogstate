@@ -96,8 +96,10 @@ def login():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Done] Redirect to a separate template meant for errors.
-            return render_template('error.html')
+            # [Done] Redirect to a separate route meant for errors.
+            global ERROR_EXISTS
+            ERROR_EXISTS = True
+            return redirect(url_for('error'))
 
     if match is None:
         return render_template('login.html',
@@ -150,8 +152,10 @@ def signup():
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Done] Redirect to a separate template meant for errors.
-            return render_template('error.html')
+            # [Done] Redirect to a separate route meant for errors.
+            global ERROR_EXISTS
+            ERROR_EXISTS = True
+            return redirect(url_for('error'))
 
     if not match is None:
         return render_template('signup.html',
@@ -171,7 +175,17 @@ def signup():
         conn.commit()
 
     except:
-        return render_template('error.html')
+        # global ERROR_EXISTS
+        '''
+        Uncommenting above line gives the following SyntaxError:
+            name 'ERROR_EXISTS' is assigned to before global declaration
+        
+        The error occurs before server starts.
+        But, this does not happen in other places where `global ...` is implemented.
+        Debugging required.
+        '''
+        ERROR_EXISTS = True
+        return redirect(url_for('error'))
 
     # Log the user in.
     login_user(User(username))
@@ -202,8 +216,10 @@ def view_profile(username):
             cur.execute(q.format(username))
             profile_data = cur.fetchall()
         except:
-            return render_template('error.html')
-    
+            global ERROR_EXISTS
+            ERROR_EXISTS = True
+            return redirect(url_for('error'))
+   
     # Now, everything needed to view profile is in `profile_data`.
     # Proceeding to view profile.
     return render_template('profile.html',
