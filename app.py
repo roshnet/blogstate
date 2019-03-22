@@ -14,7 +14,6 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flaskext.mysql import MySQL
 from database.config import db
-from database.helpers import safe_connect
 from utils.validator import validate
 
 
@@ -30,7 +29,7 @@ mysql = MySQL()
 mysql.init_app(app)
 
 conn = mysql.connect()
-cur = safe_connect(mysql)
+cur = conn.cursor()
 
 ERROR_EXISTS = False
 # A variable that ensures whether an error really occurred,
@@ -92,7 +91,8 @@ def login():
         # Being idle for too long (before login) forgets the DB connection.
         # Here, we reinitialize it, and execute the query.
         try:
-            cur = safe_connect(mysql)
+            conn = mysql.connect()
+            cur = conn.cursor()
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
@@ -148,7 +148,8 @@ def signup():
     except:
         # Connection-Reset-On-Idle exception handler.
         try:
-            cur = safe_connect(mysql)
+            conn = mysql.connect()
+            cur = conn.cursor()
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
@@ -179,7 +180,7 @@ def signup():
         '''
         Uncommenting above line gives the following SyntaxError:
             name 'ERROR_EXISTS' is assigned to before global declaration
-        
+
         The error occurs before server starts.
         But, this does not happen in other places where `global ...` is implemented.
         Debugging required.
@@ -214,7 +215,8 @@ def view_profile(username):
     except:
         # Try from scratch if connection fails.
         try:
-            cur = safe_connect(mysql)
+            conn = mysql.connect()
+            cur = conn.cursor()
             cur.execute(q.format(username))
             profile_data = cur.fetchall()
         except:
@@ -251,6 +253,6 @@ def logout():
                            msg='You have been logged out')
 
 
-# if __name__ == '__main__':
-#     # In dev mode:
-#     app.run(debug=True)
+if __name__ == '__main__':
+    # In dev mode:
+    app.run(debug=True)
