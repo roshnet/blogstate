@@ -195,6 +195,8 @@ def signup():
     return redirect(url_for('dashboard', username=username))
 
 
+# PROFILE ROUTE
+
 @app.route("/<string:username>")
 def view_profile(username):
     # Check if user is logged in, to avoid a database query.
@@ -233,7 +235,12 @@ def view_profile(username):
 @app.route('/<string:username>/dashboard')
 @login_required
 def dashboard(username):
-    return render_template('dashboard.html', user=session)
+    if username == session['username']:
+        # Open dashboard of only the logged in user, and not of someone else.
+        return render_template('dashboard.html', user=session)
+    # If a logged-in user tries to open dashboard of someone else, redirect to
+    # his own dashboard, LOL :)
+    return redirect('/{user}/dashboard'.format(user=session['username']))
 
 
 @app.route('/logout')
