@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ user.name }} | BlogState</title>
+    <meta charset="utf-8">
+    <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
+    <meta name="author" content="reprogram46@gmail.com"/>
+    <meta name="viewport" content="width=device-width,initial-scale-1.0,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
+</head>
+<body>
+
+<section class="hero is-dark is-small">
+    <div class="hero-body has-text-left">
+        <div class="container">
+            <h1 class="title is-4 is-spaced">
+                BLOG <code class="has-text-info">STATE</code>
+            </h1>
+        </div>
+    </div>
+</section>
+
+<nav class="navbar is-dark">
+    <div class="container">
+        <div class="navbar-brand">
+            <span class="navbar-burger burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <a href="{{ url_for('signup') }}" class="navbar-item">Sign Up</a>
+                <a href="{{ url_for('login') }}" class="navbar-item">Login</a>
+                <a href="#" class="navbar-item">Articles</a>
+            </div>
+        </div>
+    </div>
+</nav>
+    
+
+<section class="section">
+    <div class="container box">
+        <div class="columns">
+            <div class="column is-4">
+                <h2 class="title is-4">New Article</h2>
+            </div>
+
+            <div class="column is-4">
+                <form class="form">
+                    <label class="label" for="article-title">Title</label>
+                    <input class="input" type="text" name="article-title">
+                    <br><br>
+                </form>
+                <textarea
+                  type="text" name="input-article" class="textarea"
+                  placeholder="Write something..."></textarea>
+            </div>
+        </div>
+        <div class="has-text-centered">
+            <button class="button is-info">Post</button>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
+<script type="text/javascript">
+    (function() {
+      var burger = document.querySelector('.burger');
+      var nav = document.querySelector('#' + burger.dataset.target);
+      burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+      });
+    })();
+</script>
