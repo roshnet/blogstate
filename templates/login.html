@@ -3,35 +3,37 @@
 {% block login %}
 
 <section class="section" style="margin-top: 10%; margin-bottom: 15%;">
-	<form action="{{ url_for('login') }}" method="POST">
-		<div class="columns">
-			<div class="column is-4 is-offset-4">
-				{% if issue %}
-				<div class="field has-text-centered">
-					<p class="button is-danger is-small is-outlined">{{ issue }}</p>
-				</div>
-				{% endif %}
-				{% if msg %}
-				<div class="field has-text-centered">
-					<p class="button is-success is-small is-outlined">{{ msg }}</p>
-				</div>
-				{% endif %}
-				<div class="field">
-					<p class="control">
-						<input class="input" type="text" name="username" placeholder="Username" autofocus required />
-					</p>
-				</div>
-				<div class="field">
-					<p class="control">
-						<input class="input" type="password" name="passwd" placeholder="Password" required="" />
-					</p>
-				</div>
-				<div class="field has-text-centered">
-					<button class="button is-info" type="submit">Proceed</button>
+	<div class="container box -is-fluid">
+		<form action="{{ url_for('login') }}" method="POST">
+			<div class="columns">
+				<div class="column is-4 is-offset-4">
+					{% if issue %}
+					<div class="field has-text-centered">
+						<p class="button is-danger is-small is-outlined">{{ issue }}</p>
+					</div>
+					{% endif %}
+					{% if msg %}
+					<div class="field has-text-centered">
+						<p class="button is-success is-small is-outlined">{{ msg }}</p>
+					</div>
+					{% endif %}
+					<div class="field">
+						<p class="control">
+							<input class="input" type="text" name="username" placeholder="Username" autofocus required />
+						</p>
+					</div>
+					<div class="field">
+						<p class="control">
+							<input class="input" type="password" name="passwd" placeholder="Password" required="" />
+						</p>
+					</div>
+					<div class="field has-text-centered">
+						<button class="button is-info" type="submit">Proceed</button>
+					</div>
 				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </section>
 
 {% endblock %}
