@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ user.name }} | BlogState</title>
+    <title>Write | BlogState</title>
     <meta charset="utf-8">
     <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
     <meta name="author" content="reprogram46@gmail.com"/>
@@ -31,9 +31,9 @@
         </div>
         <div id="navMenu" class="navbar-menu">
             <div class="navbar-end">
-                <a href="{{ url_for('signup') }}" class="navbar-item">Sign Up</a>
-                <a href="{{ url_for('login') }}" class="navbar-item">Login</a>
-                <a href="#" class="navbar-item">Articles</a>
+                <a href="/{{ user.username }}" class="navbar-item">Profile</a>
+                <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
             </div>
         </div>
     </div>

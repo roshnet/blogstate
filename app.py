@@ -245,6 +245,12 @@ def dashboard(username):
     return redirect('/{user}/dashboard'.format(user=session['username']))
 
 
+@app.route('/new')
+@login_required
+def new():
+    return render_template('add-new-article.html', user=session)
+
+
 @app.route('/logout')
 @login_required
 def logout():
