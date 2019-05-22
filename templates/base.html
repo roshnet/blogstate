@@ -9,7 +9,7 @@
 	{% if title %}
 		<title>{{ title }} | BlogState</title>
 	{% else %}
-		<title>BlogState | Blogging for students</title>
+		<title>BlogState | Blogging for students and wannabe writers</title>
 	{% endif %}
 </head>
 <body>
@@ -44,16 +44,18 @@
 	</div>
 </nav>
 
+
 {% block login %}{% endblock %}
 {% block signup %}{% endblock %}
 {% block error %}{% endblock %}
+{% block dashboard %}{% endblock %}
+
 <section class="hero is-dark">
 	<div class="hero-body has-text-centered">
 		<footer>
-			Coded with &lt;/&gt; by <a href="https://github.com/roshnet" class="has-text-info">@roshnet</a>
-			<br>
+			<p class="subtitle is-6 is-spaced">This project is open-sourced.</p>
+			<p class="subtitle is-6 is-spaced">That means you can always improve it in your own ways!</p>
 			<hr style="width: 60% !important; margin-left: 20%;">
-			<p class="subtitle is-6 is-spaced">This page is open-sourced.</p>
 			<a href="https://github.com/roshnet/blogstate">
     			<button class="button is-info is-outlined">Contribute</button>
 			</a>
