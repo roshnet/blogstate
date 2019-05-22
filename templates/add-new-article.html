@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
     <meta name="author" content="reprogram46@gmail.com"/>
-    <meta name="viewport" content="width=device-width,initial-scale-1.0,user-scalable=no"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <script src="/static/js/nicEdit-latest.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
 </head>
 <body>
@@ -38,7 +39,7 @@
         </div>
     </div>
 </nav>
-    
+
 
 <section class="section">
     <div class="container box">
@@ -54,8 +55,8 @@
                     <br><br>
                 </form>
                 <textarea
-                  type="text" name="input-article" class="textarea"
-                  placeholder="Write something..."></textarea>
+                  type="text" name="input-article"
+                  class="textarea" placeholder="Write something..."></textarea>
             </div>
         </div>
         <div class="has-text-centered">
@@ -64,10 +65,11 @@
     </div>
 
 </section>
-
 </body>
 </html>
 <script type="text/javascript">
+
+// Code for dropdown menu items
     (function() {
       var burger = document.querySelector('.burger');
       var nav = document.querySelector('#' + burger.dataset.target);
@@ -76,4 +78,6 @@
         nav.classList.toggle('is-active');
       });
     })();
+// Code to initialize editor
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 </script>
