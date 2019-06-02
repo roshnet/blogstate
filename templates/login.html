@@ -1,39 +1,107 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
+    <meta name="author" content="reprogram46@gmail.com"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
+        <title>Log In | BlogState</title>
+</head>
+<body>
 
-{% block login %}
-
-<section class="section" style="margin-top: 10%; margin-bottom: 15%;">
-	<div class="container box -is-fluid">
-		<form action="{{ url_for('login') }}" method="POST">
-			<div class="columns">
-				<div class="column is-4 is-offset-4">
-					{% if issue %}
-					<div class="field has-text-centered">
-						<p class="button is-danger is-small is-outlined">{{ issue }}</p>
-					</div>
-					{% endif %}
-					{% if msg %}
-					<div class="field has-text-centered">
-						<p class="button is-success is-small is-outlined">{{ msg }}</p>
-					</div>
-					{% endif %}
-					<div class="field">
-						<p class="control">
-							<input class="input" type="text" name="username" placeholder="Username" autofocus required />
-						</p>
-					</div>
-					<div class="field">
-						<p class="control">
-							<input class="input" type="password" name="passwd" placeholder="Password" required="" />
-						</p>
-					</div>
-					<div class="field has-text-centered">
-						<button class="button is-info" type="submit">Proceed</button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+<section class="hero is-dark is-small is-bold">
+    <div class="hero-body has-text-left">
+        <div class="container">
+            <h1 class="title is-4 is-spaced">
+                BLOG <code class="has-text-info">STATE</code>
+            </h1>
+        </div>
+    </div>
 </section>
 
-{% endblock %}
+
+<nav class="navbar is-dark">
+    <div class="container">
+        <div class="navbar-brand">
+            <span class="navbar-burger burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <a href="{{ url_for('signup') }}" class="navbar-item">Sign Up</a>
+                <a href="{{ url_for('login') }}"" class="navbar-item">Log In</a>
+                <!-- <a href="{{ url_for('logout') }}" class="navbar-item">About</a> -->
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<section class="section" style="margin-top: 10%; margin-bottom: 15%;">
+    <div class="container box">
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="columns">
+                <div class="column is-4 is-offset-4">
+                    {% if issue %}
+                    <div class="field has-text-centered">
+                        <p class="button is-danger is-small is-outlined">{{ issue }}</p>
+                    </div>
+                    {% endif %}
+                    {% if msg %}
+                    <div class="field has-text-centered">
+                        <p class="button is-success is-small is-outlined">{{ msg }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" type="text" name="username" placeholder="Username" autofocus required />
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" type="password" name="passwd" placeholder="Password" required="" />
+                        </p>
+                    </div>
+                    <div class="field has-text-centered">
+                        <button class="button is-info" type="submit">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<section class="hero is-dark">
+    <div class="hero-body has-text-centered">
+        <footer>
+            <p class="subtitle is-6 is-spaced">This project is open-sourced.</p>
+            <p class="subtitle is-6 is-spaced">That means you can always improve it in your own ways!</p>
+            <hr style="width: 60% !important; margin-left: 20%;">
+            <a href="https://github.com/roshnet/blogstate">
+                <button class="button is-info is-outlined">Contribute</button>
+            </a>
+        </footer>
+    </div>
+</section>
+
+</body>
+</html>
+ <script type="text/javascript">
+      (function() {
+        var burger = document.querySelector('.burger');
+        var nav = document.querySelector('#' + burger.dataset.target);
+        burger.addEventListener('click', function(){
+          burger.classList.toggle('is-active');
+          nav.classList.toggle('is-active');
+        });
+      })();
+
+      // var submitButton = document.getElementById('submit-btn');
+      // Code to change class of button to "is-loading" when clicked (only when fields are valid)
+
+</script>
