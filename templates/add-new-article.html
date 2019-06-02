@@ -1,45 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Write | BlogState</title>
-    <meta charset="utf-8">
-    <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
-    <meta name="author" content="reprogram46@gmail.com"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
-    <script src="/static/js/nicEdit-latest.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
-</head>
-<body>
+{% extends "base.html" %}
 
-<section class="hero is-dark is-small">
-    <div class="hero-body has-text-left">
-        <div class="container">
-            <h1 class="title is-4 is-spaced">
-                BLOG <code class="has-text-info">STATE</code>
-            </h1>
-        </div>
-    </div>
-</section>
-
-<nav class="navbar is-dark">
-    <div class="container">
-        <div class="navbar-brand">
-            <span class="navbar-burger burger" data-target="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-        </div>
-        <div id="navMenu" class="navbar-menu">
-            <div class="navbar-end">
-                <a href="/{{ user.username }}" class="navbar-item">Profile</a>
-                <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
-                <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
-            </div>
-        </div>
-    </div>
-</nav>
-
+{% block newArticle %}
 
 <section class="section">
     <div class="container box">
@@ -55,29 +16,20 @@
                     <br><br>
                 </form>
                 <textarea
-                  type="text" name="input-article"
-                  class="textarea" placeholder="Write something..."></textarea>
+                  type="text" rows="8" class="textarea is-fluid"
+                  placeholder="Write something..."></textarea>
             </div>
         </div>
         <div class="has-text-centered">
-            <button class="button is-info">Post</button>
+            <button class="button is-info" id="post-button" onclick="showData()">Post</button>
         </div>
     </div>
 
 </section>
-</body>
-</html>
-<script type="text/javascript">
 
-// Code for dropdown menu items
-    (function() {
-      var burger = document.querySelector('.burger');
-      var nav = document.querySelector('#' + burger.dataset.target);
-      burger.addEventListener('click', function(){
-        burger.classList.toggle('is-active');
-        nav.classList.toggle('is-active');
-      });
-    })();
-// Code to initialize editor
+<script src="/static/js/nicEdit-latest.js"></script>
+<script type="text/javascript">
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 </script>
+
+{% endblock %}

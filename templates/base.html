@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
-	<meta name="author" content="reprogram46@gmail.com"/>
-	<meta name="viewport" content="width=device-width,initial-scale-1.0,user-scalable=no"/>
-	<link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
-	{% if title %}
-		<title>{{ title }} | BlogState</title>
-	{% else %}
-		<title>BlogState | Blogging for students and wannabe writers</title>
-	{% endif %}
+    <meta charset="utf-8">
+    <meta name="description" content="A blogging platform for wannabe bloggers and writers."/>
+    <meta name="author" content="reprogram46@gmail.com"/>
+    <meta name="viewport" content="width=device-width,initial-scale-1.0,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.css"/>
+    {% if title %}
+        <title>{{ title }} | BlogState</title>
+    {% else %}
+        <title>BlogState | Blogging for students and wannabe writers</title>
+    {% endif %}
 </head>
 <body>
 
 <section class="hero is-dark is-small is-bold">
-	<div class="hero-body has-text-left">
-		<div class="container">
-			<h1 class="title is-4 is-spaced">
-				BLOG <code class="has-text-info">STATE</code>
-			</h1>
-		</div>
-	</div>
+    <div class="hero-body has-text-left">
+        <div class="container">
+            <h1 class="title is-4 is-spaced">
+                BLOG <code class="has-text-info">STATE</code>
+            </h1>
+        </div>
+    </div>
 </section>
 
 
 <nav class="navbar is-dark">
-	<div class="container">
-		<div class="navbar-brand">
-			<span class="navbar-burger burger" data-target="navMenu">
-				<span></span>
-				<span></span>
-				<span></span>
-			</span>
-		</div>
-		<div id="navMenu" class="navbar-menu">
-			<div class="navbar-end">
-				<a href="{{ url_for('signup') }}" class="navbar-item">Sign Up</a>
-				<a href="{{ url_for('login') }}" class="navbar-item">Login</a>
-				<a href="#" class="navbar-item">Articles</a>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-brand">
+            <span class="navbar-burger burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <a href="/{{ user.username }}" class="navbar-item">Profile</a>
+                <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </div>
 </nav>
 
-
-{% block login %}{% endblock %}
-{% block signup %}{% endblock %}
-{% block error %}{% endblock %}
-{% block dashboard %}{% endblock %}
+<div style="margin-top: 10%; margin-bottom: 15%;">
+    {% block error %}{% endblock %}
+    {% block dashboard %}{% endblock %}
+    {% block newArticle %}{% endblock %}
+</div>
 
 <section class="hero is-dark">
-	<div class="hero-body has-text-centered">
-		<footer>
-			<p class="subtitle is-6 is-spaced">This project is open-sourced.</p>
-			<p class="subtitle is-6 is-spaced">That means you can always improve it in your own ways!</p>
-			<hr style="width: 60% !important; margin-left: 20%;">
-			<a href="https://github.com/roshnet/blogstate">
-    			<button class="button is-info is-outlined">Contribute</button>
-			</a>
-		</footer>
-	</div>
+    <div class="hero-body has-text-centered">
+        <footer>
+            <p class="subtitle is-6 is-spaced">This project is open-sourced.</p>
+            <p class="subtitle is-6 is-spaced">That means you can always improve it in your own ways!</p>
+            <hr style="width: 60% !important; margin-left: 20%;">
+            <a href="https://github.com/roshnet/blogstate">
+                <button class="button is-info is-outlined">Contribute</button>
+            </a>
+        </footer>
+    </div>
 </section>
 
 </body>
@@ -74,8 +74,4 @@
           nav.classList.toggle('is-active');
         });
       })();
-
-      // var submitButton = document.getElementById('submit-btn');
-      // Code to change class of button to "is-loading" when clicked (only when fields are valid)
-
 </script>
