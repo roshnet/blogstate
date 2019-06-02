@@ -31,18 +31,10 @@ mysql.init_app(app)
 conn = mysql.connect()
 cur = conn.cursor()
 
-ERROR_EXISTS = False
-# A variable that ensures whether an error really occurred,
-# or the user just typed '/error' as the url.
-if cur == 0:
-    ERROR_EXISTS = True
-    redirect('/error')
-
-
-# Initialize flask-login..
+# Initialize flask-login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = ''
+login_manager.login_view = 'login'
 
 
 @login_manager.user_loader
@@ -59,10 +51,13 @@ class User(UserMixin):
 
 
 @app.route('/error')
+@login_required
 def error():
-    if ERROR_EXISTS:
-        return render_template('error.html')
-    return redirect(url_for('index'))
+    try:
+        if session['ERROR_EXISTS']:
+            return render_template('error.html')
+    except:
+        return redirect(url_for('dashboard', username=session['username']))
 
 
 @app.route('/')
@@ -97,8 +92,7 @@ def login():
             match = cur.fetchone()
         except:
             # [Done] Redirect to a separate route meant for errors.
-            global ERROR_EXISTS
-            ERROR_EXISTS = True
+            session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
 
     if match is None:
@@ -154,8 +148,7 @@ def signup():
             match = cur.fetchone()
         except:
             # [Done] Redirect to a separate route meant for errors.
-            global ERROR_EXISTS
-            ERROR_EXISTS = True
+            session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
 
     if not match is None:
@@ -176,16 +169,7 @@ def signup():
         conn.commit()
 
     except:
-        # global ERROR_EXISTS
-        '''
-        Uncommenting above line gives the following SyntaxError:
-            name 'ERROR_EXISTS' is assigned to before global declaration
-
-        The error occurs before server starts.
-        But, this does not happen in other places where `global ...` is implemented.
-        Debugging required.
-        '''
-        ERROR_EXISTS = True
+        session['ERROR_EXISTS'] = True
         return redirect(url_for('error'))
 
     # Log the user in.
@@ -220,10 +204,9 @@ def view_profile(username):
             cur.execute(q.format(username))
             profile_data = cur.fetchall()
         except:
-            global ERROR_EXISTS
-            ERROR_EXISTS = True
+            session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
-   
+
     # Now, everything needed to view profile is in `profile_data`.
     # Proceeding to view profile.
     return render_template('profile.html',
