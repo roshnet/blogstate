@@ -36,9 +36,15 @@
         </div>
         <div id="navMenu" class="navbar-menu">
             <div class="navbar-end">
-                <a href="/{{ user.username }}" class="navbar-item">Profile</a>
-                <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
-                <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
+                {% if user.logged_in %}
+                    <a href="/{{ user.username }}" class="navbar-item">Profile</a>
+                    <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="navbar-item is-active">Sign Up</a>
+                    <a href="{{ url_for('login') }}" class="navbar-item">Login</a>
+                    <a href="{{ url_for('public_feed') }}" class="navbar-item">Explore</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -48,6 +54,7 @@
     {% block error %}{% endblock %}
     {% block dashboard %}{% endblock %}
     {% block newArticle %}{% endblock %}
+    {% block publicFeed %}{% endblock %}
 </div>
 
 <section class="hero is-dark">

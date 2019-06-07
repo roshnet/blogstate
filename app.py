@@ -23,6 +23,7 @@ app.config['MYSQL_DATABASE_HOST'] = db['host']
 app.config['MYSQL_DATABASE_USER'] = db['user']
 app.config['MYSQL_DATABASE_PASSWORD'] = db['password']
 app.config['MYSQL_DATABASE_DB'] = db['name']
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Initialize database variables..
 mysql = MySQL()
@@ -62,6 +63,9 @@ def error():
 
 @app.route('/')
 def index():
+    if User.is_authenticated:
+        return redirect(url_for('dashboard',
+                                user=session))
     return render_template('index.html')
 
 
@@ -151,13 +155,13 @@ def signup():
             session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
 
-    if not match is None:
+    if match is not None:
         return render_template('signup.html',
                                issue='Username already taken')
 
     # Proceed with insertion otherwise.
     q = '''
-    INSERT INTO `credentials` (username, name, hash, email) 
+    INSERT INTO `credentials` (username, name, hash, email)
     VALUES (%s,%s,%s,%s)
     '''
 
@@ -210,8 +214,40 @@ def view_profile(username):
     # Now, everything needed to view profile is in `profile_data`.
     # Proceeding to view profile.
     return render_template('profile.html',
-                            person=profile_data)
+                           person=profile_data)
 
+
+@app.route('/public/articles')
+def public_feed():
+    q = """
+    SELECT credentials.username AS author,posts.title,posts.body,posts.likes
+    FROM `posts`
+    INNER JOIN `credentials`
+    ON posts.author_uid = credentials.user_id;
+    """
+    cur.execute(q)
+    rows = cur.fetchall()
+    """
+    Using `fetchall` for simplicity.
+    `fetchmany(size=)` to be used for limited posts.
+    Unloaded posts will be loaded via an AJAX request,
+    in a later version.
+    """
+    # Above statement fetches records in tuple form.
+    # Changing to dictionary format.
+    posts = []
+    fields = [x[0] for x in cur.description]
+
+    for row in rows:
+        post = {}
+        for i in range(len(fields)):
+            post[fields[i]] = row[i]
+        posts.append(post)
+
+    return render_template('public-feed.html',
+                           title='Public Feed',
+                           user=session,
+                           posts=posts)
 
 
 # PROTECTED ROUTES

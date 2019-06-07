@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block publicFeed %}
+
+<section class="section">
+    <div class="container">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <div class="subtitle is-2 heading has-text-grey">
+                        Articles
+                    </div>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <a href="{{ url_for('new') }}">
+                        <button class="button is-success subtitle is-6">
+                            Write a new one
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            {% for post in posts %}
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title subtitle is-4 has-text-grey">
+                        {{ post.title }}
+                        &middot;
+                        <span class="subtitle is-6">
+                            <code>
+                                <a href="/{{ post.author }}" class="has-text-info">
+                                    @{{ post.author }}
+                                </a>
+                            </code>
+                        </span>
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        {{ post.body }}
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <a href="#" class="card-footer-item has-text-info">&starf; {{ post.likes }}</a>
+                    <a href="#" class="card-footer-item has-text-info">Comment</a>
+                    <a href="#" class="card-footer-item has-text-info">Share</a>
+                </footer>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</section>
+
+{% endblock %}
