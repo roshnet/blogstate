@@ -63,15 +63,23 @@ def error():
 
 @app.route('/')
 def index():
-    if User.is_authenticated:
+    try:
         return redirect(url_for('dashboard',
-                                user=session))
-    return render_template('index.html')
+                                username=session['username']))
+    except KeyError:
+        return render_template('index.html')
 
 
 @app.route('/signin')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    try:
+        if session['logged_in']:
+            return redirect(url_for('dashboard',
+                            username=session['username']))
+    except KeyError:
+        pass
+
     if request.method == 'GET':
         return render_template('login.html',
                                title='Log In')
@@ -121,6 +129,13 @@ def login():
 @app.route('/signup')
 @app.route('/join', methods=['GET', 'POST'])
 def signup():
+    try:
+        if session['logged_in']:
+            return redirect(url_for('dashboard',
+                            username=session['username']))
+    except KeyError:
+        pass
+
     if request.method == 'GET':
         return render_template('signup.html')
 
@@ -274,6 +289,8 @@ def new():
 @login_required
 def logout():
     logout_user()
+    session = {}
+    session['logged_in'] = False
     return render_template('login.html',
                            msg='You have been logged out')
 
