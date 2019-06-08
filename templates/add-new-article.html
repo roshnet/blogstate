@@ -10,18 +10,21 @@
             </div>
 
             <div class="column is-4">
-                <form class="form">
-                    <label class="label" for="article-title">Title</label>
-                    <input class="input" type="text" name="article-title">
+                <form id="add-post" class="form" method="POST"
+                      action="{{ url_for('new') }}">
+                    <label class="label" for="title">Title</label>
+                    <input class="input" type="text" name="title">
                     <br><br>
-                </form>
                 <textarea
                   type="text" rows="8" class="textarea is-fluid"
-                  placeholder="Write something..."></textarea>
+                  name="body"></textarea>
+                </form>
             </div>
         </div>
         <div class="has-text-centered">
-            <button class="button is-info" id="post-button" onclick="showData()">Post</button>
+            <button class="button is-info" form="add-post" type="submit">
+                Post
+            </button>
         </div>
     </div>
 
