@@ -238,7 +238,8 @@ def public_feed():
     SELECT credentials.username AS author,posts.title,posts.body,posts.likes
     FROM `posts`
     INNER JOIN `credentials`
-    ON posts.author_uid = credentials.user_id;
+    ON posts.author_uid = credentials.user_id
+    ORDER BY posts.post_id DESC;
     """
     cur.execute(q)
     rows = cur.fetchall()
@@ -279,10 +280,31 @@ def dashboard(username):
     return redirect('/{user}/dashboard'.format(user=session['username']))
 
 
-@app.route('/new')
+@app.route('/new', methods=['GET', 'POST'])
 @login_required
 def new():
-    return render_template('add-new-article.html', user=session)
+    if request.method == 'GET':
+        return render_template('add-new-article.html', user=session)
+
+    post_title, post_body = request.form['title'], request.form['body']
+    q = """
+    INSERT INTO posts (author_uid, title, body)
+    VALUES (
+        (SELECT user_id FROM credentials WHERE username=%s),
+        %s,%s
+    );
+    """
+
+    try:
+        cur.execute(q, (session['username'],
+                        post_title,
+                        post_body))
+        conn.commit()
+    except:
+        session['ERROR_EXISTS'] = True
+        return redirect(url_for('error'))
+
+    return redirect(url_for('public_feed'))
 
 
 @app.route('/logout')
