@@ -37,7 +37,7 @@
         <div id="navMenu" class="navbar-menu">
             <div class="navbar-end">
                 {% if user.logged_in %}
-                    <a href="/{{ user.username }}" class="navbar-item">Profile</a>
+                    <!-- <a href="/{{ user.username }}" class="navbar-item">Profile</a> -->
                     <a href="/{{ user.username }}/dashboard" class="navbar-item">Dashboard</a>
                     <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
                 {% else %}

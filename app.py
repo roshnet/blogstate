@@ -25,14 +25,12 @@ app.config['MYSQL_DATABASE_PASSWORD'] = db['password']
 app.config['MYSQL_DATABASE_DB'] = db['name']
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-# Initialize database variables..
 mysql = MySQL()
 mysql.init_app(app)
 
 conn = mysql.connect()
 cur = conn.cursor()
 
-# Initialize flask-login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -84,26 +82,27 @@ def login():
         return render_template('login.html',
                                title='Log In')
 
-    # [Do] Process login instead.
     username = request.form['username']
     passwd = request.form['passwd']
 
-    # Assuming clean data, proceeding.
+    # [TODO] Apply checks on input
     q = "SELECT `hash`, `name` FROM `credentials` WHERE username='{}';"
     try:
         cur.execute(q.format(username))
         match = cur.fetchone()
     except:
-        # Exception handler for 500 Internal Server Error.
-        # Being idle for too long (before login) forgets the DB connection.
-        # Here, we reinitialize it, and execute the query.
+        '''
+        Exception handler for 500 Internal Server Error.
+        Being idle for too long (before login) forgets the DB connection.
+        Here, we reinitialize it, and execute the query.
+        '''
         try:
             conn = mysql.connect()
             cur = conn.cursor()
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Done] Redirect to a separate route meant for errors.
+            # Redirect to a separate route meant for errors
             session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
 
@@ -111,13 +110,13 @@ def login():
         return render_template('login.html',
                                issue='Username or password is incorrect')
 
-    # If username exists, proceed to compare passwords.
+    # If username exists, proceed to compare passwords
     hashed = match[0]
     if not check_password_hash(hashed, passwd):
         return render_template('login.html',
                                issue='Username or password is incorrect')
 
-    # Else, log the user in.
+    # Else, log the user in
     login_user(User(username))
     session['logged_in'] = True
     session['name'] = match[1]
@@ -139,13 +138,12 @@ def signup():
     if request.method == 'GET':
         return render_template('signup.html')
 
-    # [Do] Process data instead..
     name = request.form['name']
     username = request.form['username']
     email = request.form['email']
     passwd = request.form['passwd']
 
-    # [WIP] Check for sanity of fields, redirect if unclean (avoid SQLIA).
+    # [WIP] Apply checks on fields, redirect if unclean (avoid SQLIA).
     resp = validate(username, name)
     if resp['is_valid'] == 0:
         return render_template('signup.html',
@@ -153,20 +151,20 @@ def signup():
     elif resp['is_valid'] == 1:
         name = resp['name']
 
-    # [Do] Check for username availability (assuming clean data)
+    # Check username availability (assuming clean data)
     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
     try:
         cur.execute(q.format(username))
         match = cur.fetchone()
     except:
-        # Connection-Reset-On-Idle exception handler.
+        # Connection-Reset-On-Idle exception handler
         try:
             conn = mysql.connect()
             cur = conn.cursor()
             cur.execute(q.format(username))
             match = cur.fetchone()
         except:
-            # [Done] Redirect to a separate route meant for errors.
+            # Redirect to a separate route meant for errors
             session['ERROR_EXISTS'] = True
             return redirect(url_for('error'))
 
@@ -174,7 +172,7 @@ def signup():
         return render_template('signup.html',
                                issue='Username already taken')
 
-    # Proceed with insertion otherwise.
+    # Proceed with insertion otherwise
     q = '''
     INSERT INTO `credentials` (username, name, hash, email)
     VALUES (%s,%s,%s,%s)
@@ -191,7 +189,7 @@ def signup():
         session['ERROR_EXISTS'] = True
         return redirect(url_for('error'))
 
-    # Log the user in.
+    # Log the user in
     login_user(User(username))
     session['logged_in'] = True
     session['name'] = name
@@ -201,56 +199,57 @@ def signup():
 
 # PROFILE ROUTE
 
-@app.route("/<string:username>")
-def view_profile(username):
-    # Check if user is logged in, to avoid a database query.
-    if User.is_authenticated:
-        if username == session['username']:
-            return render_template('profile.html', user=session)
+# @app.route("/<string:username>")
+# def view_profile(username):
+#     # Check if user is logged in, to avoid a database query
+#     if User.is_authenticated:
+#         if username == session['username']:
+#             return render_template('profile.html', user=session)
 
-    # When user is not logged in, query the DB and fetch info.
-    # SELECTing only `name` for now. SELECT more items later as DB grows,
-    # and that too from a different table.
-    q = "SELECT `name` FROM `credentials` WHERE username='{}';"
-    try:
-        cur.execute(q.format(username))
-        profile_data = cur.fetchall()
-    except:
-        # Try from scratch if connection fails.
-        try:
-            conn = mysql.connect()
-            cur = conn.cursor()
-            cur.execute(q.format(username))
-            profile_data = cur.fetchall()
-        except:
-            session['ERROR_EXISTS'] = True
-            return redirect(url_for('error'))
+#     # When user is not logged in, query the DB and fetch info.
+#     # SELECTing only `name` for now. SELECT more items later as DB grows,
+#     # and that too from a different table.
+#     q = "SELECT `name` FROM `credentials` WHERE username='{}';"
+#     try:
+#         cur.execute(q.format(username))
+#         profile_data = cur.fetchall()
+#     except:
+#         # Try from scratch if connection fails
+#         try:
+#             conn = mysql.connect()
+#             cur = conn.cursor()
+#             cur.execute(q.format(username))
+#             profile_data = cur.fetchall()
+#         except:
+#             session['ERROR_EXISTS'] = True
+#             return redirect(url_for('error'))
 
-    # Now, everything needed to view profile is in `profile_data`.
-    # Proceeding to view profile.
-    return render_template('profile.html',
-                           person=profile_data)
+#     # Now, everything needed to view profile is in `profile_data`.
+#     # Proceeding to view profile.
+#     return render_template('profile.html',
+#                            person=profile_data)
 
 
 @app.route('/public/articles')
 def public_feed():
-    q = """
+    q = '''
     SELECT credentials.username AS author,posts.title,posts.body,posts.likes
     FROM `posts`
     INNER JOIN `credentials`
     ON posts.author_uid = credentials.user_id
     ORDER BY posts.post_id DESC;
-    """
+    '''
     cur.execute(q)
     rows = cur.fetchall()
     """
     Using `fetchall` for simplicity.
     `fetchmany(size=)` to be used for limited posts.
-    Unloaded posts will be loaded via an AJAX request,
-    in a later version.
+    Unloaded posts are to be loaded via AJAX calls,
+    in future versions.
     """
-    # Above statement fetches records in tuple form.
-    # Changing to dictionary format.
+
+    # `fetchall()` fetches records as a tuple.
+    # Creating a template parsable dict out of it.
     posts = []
     fields = [x[0] for x in cur.description]
 
@@ -273,7 +272,7 @@ def public_feed():
 @login_required
 def dashboard(username):
     if username == session['username']:
-        # Open dashboard of only the logged in user, and not of someone else.
+        # Open dashboard of only the logged in user, and not of someone else
         return render_template('dashboard.html', user=session)
     # If a logged-in user tries to open dashboard of someone else, redirect to
     # his own dashboard, LOL :)
@@ -318,5 +317,5 @@ def logout():
 
 
 if __name__ == '__main__':
-    # In dev mode:
+    # Dev mode only:
     app.run(debug=True)
