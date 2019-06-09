@@ -239,14 +239,24 @@ def public_feed():
     ON posts.author_uid = credentials.user_id
     ORDER BY posts.post_id DESC;
     '''
-    cur.execute(q)
-    rows = cur.fetchall()
-    """
-    Using `fetchall` for simplicity.
-    `fetchmany(size=)` to be used for limited posts.
-    Unloaded posts are to be loaded via AJAX calls,
-    in future versions.
-    """
+    try:
+        cur.execute(q)
+        rows = cur.fetchall()
+    except:
+        try:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.execute(q)
+            rows = cur.fetchall()
+            """
+            Using `fetchall` for simplicity.
+            `fetchmany(size=)` to be used for limited posts.
+            Unloaded posts are to be loaded via AJAX calls,
+            in future versions.
+            """
+        except:
+            session['ERROR_EXISTS'] = True
+            return redirect(url_for('error'))
 
     # `fetchall()` fetches records as a tuple.
     # Creating a template parsable dict out of it.
@@ -300,8 +310,16 @@ def new():
                         post_body))
         conn.commit()
     except:
-        session['ERROR_EXISTS'] = True
-        return redirect(url_for('error'))
+        try:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.execute(q, (session['username'],
+                        post_title,
+                        post_body))
+            conn.commit()
+        except:
+            session['ERROR_EXISTS'] = True
+            return redirect(url_for('error'))
 
     return redirect(url_for('public_feed'))
 
