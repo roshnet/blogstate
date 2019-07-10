@@ -3,3 +3,5 @@ __pycache__/
 todo.md
 .vscode
 devdocs.md
+templates/random*
+templates/self.html
