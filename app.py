@@ -330,9 +330,9 @@ def logout():
     logout_user()
     session = {}
     session['logged_in'] = False
-    return render_template('login.html',
-                           msg='You have been logged out')
-
+    # return render_template('login.html',
+    #                        msg='You have been logged out')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     # Dev mode only:
