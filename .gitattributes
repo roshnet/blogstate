@@ -1,1 +1,5 @@
 static/* linguist-vendored
+templates/base.html linguist-vendored
+templates/error.html linguist-vendored
+templates/login.html linguist-vendored
+templates/signup.html linguist-vendored
