@@ -315,8 +315,3 @@ def logout():
     session['logged_in'] = False
     return render_template('login.html',
                            msg='You have been logged out')
-
-
-if __name__ == '__main__':
-    # In dev mode:
-    app.run(debug=True)
